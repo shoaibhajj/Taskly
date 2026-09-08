@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Action Blue & Tonal Range */
+  --color-primary: #003d9b;
+  --color-primary-container: #0052cc;
+  --color-surface-highest: #d7e2ff;
+  --color-surface-medium: #737685;
+  --color-surface-low: #f1f3ff;
+  --color-background: #f9f9ff;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Slate Neutrals */
+  --color-slate-light: #c3c6d6;
+  --color-slate-mid: #4f5f7b;
+  --color-slate-dark: #041b3c;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Semantic  */
+  --color-success: #82f9be;
+  --color-error: #ba1a1a;
+  --color-danger: #ffdad6;
+  --color-warning: #ffb300;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Font Size */
+  --text-display-lg: 3.5rem;
+  --text-headline-lg: 2rem;
+  --text-title-md: 1.125rem;
+  --text-body-md: 0.875rem;
+  --text-label-sm: 0.688rem;
+  --text-label-xs: 0.625rem;
+
+  /* Line Hieght */
+  --leading-display-lg: 3.5rem;
+  --leading-headline-lg: 2.5rem;
+  --leading-title-md: 1.688rem;
+  --leading-body-md: 1.422rem;
+  --leading-label-sm: 1.031rem;
+  --leading-label-xs: 0.938;
+  --leading-btn: 1.25rem;
+
+  /* Letter Spacing */
+  --tracking-display-lg: -0.175rem;
+  --tracking-title-md: 0rem; /* same for Headline-LG 0  */
+  --tracking-body-md: 0.075rem;
+  --tracking-label-sm: 0.075rem;
+
+  /* Font Weight */
+
+  /*  -- Padding */
+  --spacing-btn-x: 1.5rem;
+  --spacing-btn-y: 0.625rem;
+  --spacing-label-gap: 0.406rem;
+
+  /* Border Radius */
+  --radius-btn: 0.125rem;
+  --radius-input: 0.25rem;
+  --radius-card: 0.5rem;
+
+  --shadow-btn: 0px 1px 2px 0px #0000000d;
+}
+@utility bg-primary-gradient {
+  background-image: linear-gradient(95.71deg, #003d9b 0%, #0052cc 100%);
 }
