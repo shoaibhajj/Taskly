@@ -25,21 +25,11 @@ export default function Home() {
     <div className="p-6">
       Welcome To Rafiq
       <Logo className="h-6 w-6 text-blue-500" />
-      <Button variant="primary" label="Primary Action" />
-      <Button variant="secondary" label="test" className="bg-green-500!" />
-      <Button variant="ghost" label="test" />
       <form
         onSubmit={(e) => e.preventDefault()}
         style={{ maxWidth: "300px", margin: "2rem auto" }}
       >
-        <Input
-          id="user-email"
-          label="Email Address"
-          value={email}
-          onChange={(e) => handleEmailChange(e)}
-          error={emailError}
-          placeholder="you@example.com"
-        />
+      
         <button type="submit" style={{ padding: "0.5rem 1rem" }}>
           Submit
         </button>
