@@ -21,42 +21,45 @@
   --color-warning: #ffb300;
 
   /* Font Size */
-  --text-display-lg: 3.5rem;
-  --text-headline-lg: 2rem;
-  --text-title-md: 1.125rem;
-  --text-body-md: 0.875rem;
-  --text-label-sm: 0.688rem;
-  --text-label-xs: 0.625rem;
+  --text-display-lg: 3.5rem; /* 56px */
+  --text-headline-lg: 2rem; /* 32px */
+  --text-title-md: 1.125rem; /* 18px */
+  --text-body-md: 0.875rem; /* 14px */
+  --text-label-sm: 0.688rem; /* 11px */
+  --text-label-xs: 0.625rem; /* 10px */
 
-  /* Line Hieght */
-  --leading-display-lg: 3.5rem;
-  --leading-headline-lg: 2.5rem;
-  --leading-title-md: 1.688rem;
-  --leading-body-md: 1.422rem;
-  --leading-label-sm: 1.031rem;
-  --leading-label-xs: 0.938;
-  --leading-btn: 1.25rem;
+  /* Line Height */
+  --leading-display-lg: 3.5rem; /* 56px */
+  --leading-headline-lg: 2.5rem; /* 40px */
+  --leading-title-md: 1.688rem; /* 27px */
+  --leading-body-md: 1.422rem; /* 23px */
+  --leading-label-sm: 1.031rem; /* 16.5px */
+  --leading-label-xs: 0.938; /* 15px */
+  --leading-btn: 1.25rem; /* 20px */
 
   /* Letter Spacing */
-  --tracking-display-lg: -0.175rem;
-  --tracking-title-md: 0rem; /* same for Headline-LG 0  */
-  --tracking-body-md: 0.075rem;
-  --tracking-label-sm: 0.075rem;
+  --tracking-display-lg: -0.175rem; /* -2.8px */
+  --tracking-title-md: 0rem; /* 0px */
+  --tracking-headline-lg: 0rem; /* 0px */
+  --tracking-body-md: 0.075rem; /* 1.2px */
+  --tracking-label-sm: 0.075rem; /* 1.2px */
 
-  /* Font Weight */
-
-  /*  -- Padding */
-  --spacing-btn-x: 1.5rem;
-  --spacing-btn-y: 0.625rem;
-  --spacing-label-gap: 0.406rem;
+  /* Padding */
+  --spacing-btn-x: 1.5rem; /* 24px */
+  --spacing-btn-y: 0.625rem; /* 10px */
+  --spacing-label-gap: 0.406rem; /* 6.5px */
 
   /* Border Radius */
-  --radius-btn: 0.125rem;
-  --radius-input: 0.25rem;
-  --radius-card: 0.5rem;
+  --radius-btn: 0.125rem; /* 2px */
+  --radius-input: 0.25rem; /* 4px */
+  --radius-card: 0.5rem; /* 8px */
 
   --shadow-btn: 0px 1px 2px 0px #0000000d;
 }
 @utility bg-primary-gradient {
   background-image: linear-gradient(95.71deg, #003d9b 0%, #0052cc 100%);
 }
+
+
+
+

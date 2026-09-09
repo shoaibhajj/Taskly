@@ -1,35 +1,53 @@
 import { cn } from "@/utils/cn";
 import { ComponentPropsWithoutRef } from "react";
+import { FieldError } from "react-hook-form";
+import EyeOff from "@/app/icons/eyeOff.svg";
+import Eye from "@/app/icons/eye.svg";
 
 interface InputProps extends ComponentPropsWithoutRef<"input"> {
-  label: string;
-  error: string | null;
+  error: FieldError | undefined;
+  togglePasswordVisibility?: () => void;
+  showPassword?: boolean;
 }
 
-const Input = ({ label, error, id, type, ...props }: InputProps) => {
+const Input = ({
+  togglePasswordVisibility,
+  showPassword = false,
+  error,
+  id,
+  type,
+  ...props
+}: InputProps) => {
   const hasError = Boolean(error);
+
   return (
-    <div className="input-group mt-1">
-      <label
-        htmlFor={id}
-        className={cn(
-          hasError ? "text-error" : "text-surface-medium",
-          "text-label-xs leading-label-xs block font-bold",
-        )}
-      >
-        {label}
-      </label>
+    <div className="relative mt-1 flex w-full  items-center">
       <input
-        type={type ?? "text"}
         id={id}
         className={cn(
           hasError
             ? "bg-danger placeholder-error text-error"
             : "bg-surface-highest placeholder-surface-medium",
-          "mt-label-gap w-full border-0 px-1 py-3.5",
+          "mt-label-gap w-full rounded border-0 py-3.5 pr-10 pl-3 outline-0",
         )}
         {...props}
+        type={type ?? "text"}
       />
+
+      {togglePasswordVisibility && (
+        <button
+          type="button"
+          onClick={togglePasswordVisibility}
+          aria-label={showPassword ? "Hide password" : "Show password"}
+          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+        >
+          {showPassword ? (
+            <EyeOff className="h-5 w-5" />
+          ) : (
+            <Eye className="h-5 w-5" />
+          )}
+        </button>
+      )}
     </div>
   );
 };

@@ -1,29 +1,29 @@
 import { cn } from "@/utils/cn";
-import { ComponentPropsWithRef } from "react";
+import { ComponentPropsWithRef, ReactNode } from "react";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 interface ButtonProps extends ComponentPropsWithRef<"button"> {
-  label: string;
+  children: ReactNode;
   variant?: ButtonVariant;
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "bg-primary-gradient text-white ",
   secondary: "bg-white  text-primary",
-  ghost: "bg-white  text-surface-medium",
+  ghost: "bg-white  text-slate-mid!",
 };
 
-const Button = ({ label, variant, className, ...props }: ButtonProps) => {
+const Button = ({ children, variant, className, ...props }: ButtonProps) => {
   return (
     <button
       className={cn(
-        "text-body-md leading-btn px-btn-x py-btn-y rounded-btn shadow-btn font-semibold",
-        variantClasses[variant ?? "primary"],
         className,
+        "text-body-md leading-btn  rounded-btn shadow-btn font-semibold ",
+        variantClasses[variant ?? "primary"],
       )}
       {...props}
     >
-      {label}
+      {children}
     </button>
   );
 };
