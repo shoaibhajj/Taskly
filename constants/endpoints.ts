@@ -1,0 +1,6 @@
+
+export const ENDPOINTS = {
+  SIGN_UP: "/auth/v1/signup",
+  LOGIN: "/auth/v1/token?grant_type=password",
+  REFRESH_TOKEN: "/auth/v1/token?grant_type=refresh_token",
+} as const;

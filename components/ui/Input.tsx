@@ -16,12 +16,13 @@ const Input = ({
   error,
   id,
   type,
+  placeholder,
   ...props
 }: InputProps) => {
   const hasError = Boolean(error);
 
   return (
-    <div className="relative mt-1 flex w-full  items-center">
+    <div className="relative mt-1 flex w-full items-center text-center">
       <input
         id={id}
         className={cn(
@@ -32,6 +33,7 @@ const Input = ({
         )}
         {...props}
         type={type ?? "text"}
+        placeholder={error ? `${error.message}` : placeholder}
       />
 
       {togglePasswordVisibility && (
@@ -39,12 +41,12 @@ const Input = ({
           type="button"
           onClick={togglePasswordVisibility}
           aria-label={showPassword ? "Hide password" : "Show password"}
-          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+          className="absolute right-0 flex items-center pr-4 text-gray-500 hover:text-gray-700"
         >
           {showPassword ? (
-            <EyeOff className="h-5 w-5" />
+            <EyeOff className="mt-3 h-6 w-6" />
           ) : (
-            <Eye className="h-5 w-5" />
+            <Eye className="mt-3 h-6 w-6" />
           )}
         </button>
       )}
