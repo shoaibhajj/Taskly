@@ -36,13 +36,13 @@ function deleteCookie(name: string) {
 }
 
 export function storeSession(tokens: sessionTokens, rememberMe: boolean): void {
- setCookie("access_token", tokens.access_token, null);
- setCookie("refresh_token", tokens.refresh_token, rememberMe ? 30 : null);
- setCookie(
-   "remember_me",
-   rememberMe ? "true" : "false",
-   rememberMe ? 30 : null,
- );
+  setCookie("access_token", tokens.access_token, null);
+  setCookie("refresh_token", tokens.refresh_token, rememberMe ? 30 : null);
+  setCookie(
+    "remember_me",
+    rememberMe ? "true" : "false",
+    rememberMe ? 30 : null,
+  );
 }
 
 export function getAccessToken(): string | null {
@@ -59,6 +59,3 @@ export function clearSession(): void {
   deleteCookie("refresh_token");
   deleteCookie("remember_me");
 }
-
-
-

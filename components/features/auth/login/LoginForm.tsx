@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { LogInFormData, logInSchema } from "@/schemas/login";
 import { ENDPOINTS } from "@/constants/endpoints";
 import { SignInResponse } from "@/types/auth";
-import { storeSession } from "@/lib/auth/session";
+import { getAccessToken, storeSession } from "@/lib/auth/session";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -33,22 +33,30 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit = async (data: LogInFormData) => {
+  const onSubmit = async (
+    data: LogInFormData,
+    e?: React.BaseSyntheticEvent,
+  ) => {
+    e?.preventDefault();
     try {
       const response = await api.post<SignInResponse>(ENDPOINTS.LOGIN, data);
-      const { access_token, refresh_token, expires_at, user } = response;
+      const { access_token, refresh_token } = response;
 
       storeSession({ access_token, refresh_token }, checkedRememberMe);
-      if (response) {
+      if (getAccessToken()) {
         router.push("/projects");
       }
     } catch (error) {
-      toast.error(`${error}`);
+      console.log(error);
+
+      const err = error as { message: string; status: number };
+
+      if (err.status === 400) toast.error(`Invalid email or password.`);
     }
   };
 
   return (
-    <div className="mx-auto flex h-screen flex-col items-center bg-white md:w-xl">
+    <div className="mx-auto mb-36.75 flex h-screen flex-col items-center bg-white md:w-xl">
       <div className="flex flex-col justify-end">
         <h1 className="text-headline-lg leading-headline-lg text-slate-dark mt-11 pt-22 font-semibold tracking-tight">
           Welcome Back
@@ -60,7 +68,7 @@ export default function LoginForm() {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-85.5 flex-col gap-6"
+        className="flex w-85.5 flex-col gap-6 md:w-full"
       >
         <div>
           <label
@@ -116,6 +124,7 @@ export default function LoginForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
+            aria-busy={isSubmitting}
             className="px-btn-x mt-6 w-full py-4"
           >
             {isSubmitting ? "Submitting..." : "Log In"}
@@ -127,8 +136,11 @@ export default function LoginForm() {
         <p className="text-body-md text-slate-mid">
           Don&apos;t have an account?{" "}
         </p>
-        <Link href={"/sign-up"}>
-          <Button variant="secondary">Sign Up</Button>
+        <Link
+          href="/sign-up"
+          className="text-primary text-body-md font-semibold"
+        >
+          Sign Up
         </Link>
       </div>
     </div>

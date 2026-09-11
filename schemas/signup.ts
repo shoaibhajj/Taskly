@@ -19,7 +19,13 @@ export const passwordSchema = z
 
 export const signUpSchema = z
   .object({
-    name: z.string().min(3, "Username must be at least 3 characters long"),
+    name: z
+      .string()
+      .min(3, "Username must be at least 3 characters long")
+      .regex(
+        /^[A-Za-z\u0600-\u06FF\s]+$/,
+        "Username must contain only letters and spaces",
+      ),
     email: z.string().email("Please enter a valid email address"),
     password: passwordSchema,
     jobTitle: z.string().optional(),
