@@ -1,4 +1,3 @@
-import { ENDPOINTS } from "@/constants/endpoints";
 import {
   clearSession,
   getAccessToken,
@@ -57,15 +56,15 @@ async function apiFetch<T>(
 
     if (refreshed) {
       return apiFetch<T>(endpoint, options, true);
-    }
-  } else {
-    clearSession();
-
-    if (typeof window !== "undefined") {
-      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-      window.location.href = "/login";
     } else {
-      redirect("/login");
+      clearSession();
+
+      if (typeof window !== "undefined") {
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+        window.location.href = "/login";
+      } else {
+        redirect("/login");
+      }
     }
   }
 

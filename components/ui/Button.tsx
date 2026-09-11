@@ -13,14 +13,21 @@ const variantClasses: Record<ButtonVariant, string> = {
   ghost: "bg-white  text-slate-mid!",
 };
 
-const Button = ({ children, variant, className, ...props }: ButtonProps) => {
+const Button = ({
+  children,
+  variant,
+  className,
+  type = "button",
+  ...props
+}: ButtonProps) => {
   return (
     <button
       className={cn(
         className,
-        "text-body-md leading-btn rounded-card shadow-btn font-semibold text-center ",
+        "text-body-md leading-btn rounded-card shadow-btn focus-visible:outline-primary text-center font-semibold focus-visible:outline-offset-2 disabled:opacity-50",
         variantClasses[variant ?? "primary"],
       )}
+      type={type}
       {...props}
     >
       {children}

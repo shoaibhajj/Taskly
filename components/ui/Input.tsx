@@ -20,7 +20,7 @@ const Input = ({
   ...props
 }: InputProps) => {
   const hasError = Boolean(error);
-
+  const errorId = `${id}-error`;
   return (
     <div className="relative mt-1 flex w-full items-center text-center">
       <input
@@ -34,6 +34,8 @@ const Input = ({
         {...props}
         type={type ?? "text"}
         placeholder={error ? `${error.message}` : placeholder}
+        aria-invalid={hasError}
+        aria-describedby={hasError ? errorId : undefined}
       />
 
       {togglePasswordVisibility && (
@@ -49,6 +51,16 @@ const Input = ({
             <Eye className="mt-3 h-6 w-6" />
           )}
         </button>
+      )}
+
+      {hasError && (
+        <p
+          id={errorId}
+          role="alert"
+          className="text-error text-label-sm sr-only mt-1"
+        >
+          {error?.message}
+        </p>
       )}
     </div>
   );

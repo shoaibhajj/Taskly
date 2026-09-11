@@ -20,8 +20,6 @@ const checkListRules = [
   { id: "special-failed", label: "One special character" },
 ];
 
-
-
 export default function RegistrationForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -66,7 +64,7 @@ export default function RegistrationForm() {
     : zodResult.error.issues.map((i) => i.message);
 
   return (
-    <div className="s mx-auto flex flex-col items-center bg-white md:w-xl">
+    <div className="mx-auto mb-36.75 flex flex-col items-center bg-white md:w-xl">
       <h1 className="text-headline-lg leading-headline-lg text-slate-dark mt-11 font-semibold tracking-tight">
         Create your workspace
       </h1>
@@ -79,7 +77,7 @@ export default function RegistrationForm() {
         Join the editorial approach to task management.
       </p>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6">
         <div>
           <label
             htmlFor="name"
@@ -92,8 +90,9 @@ export default function RegistrationForm() {
             {...register("name")}
             error={errors.name}
             placeholder="Enter your full name"
+            aria-describedby="name-hint"
           />
-          <p className="text-slate-light text-label-sm">
+          <p id="name-hint" className="text-slate-light text-label-sm">
             3-50 characters, letters only.
           </p>
         </div>
@@ -166,6 +165,7 @@ export default function RegistrationForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
+          aria-busy={isSubmitting}
           className="rounded-b-card px-btn-x mt-6 w-full py-4"
         >
           {isSubmitting ? "Submitting..." : "Create Account"}
@@ -182,9 +182,15 @@ export default function RegistrationForm() {
             return (
               <li key={rule.id} className="flex items-center space-x-2 text-sm">
                 {isPassed === true ? (
-                  <Success className="text-success h-4 w-4" />
+                  <Success
+                    aria-hidden="true"
+                    className="text-success h-4 w-4"
+                  />
                 ) : (
-                  <Check className="text-slate-light h-4 w-4" />
+                  <Check
+                    aria-hidden="false"
+                    className="text-slate-light h-4 w-4"
+                  />
                 )}
                 <span
                   className={`text-slate-mid font-medium transition-colors duration-200`}
@@ -199,8 +205,8 @@ export default function RegistrationForm() {
 
       <div className="mt-1 flex items-center justify-center gap-1">
         <p className="text-body-md text-slate-mid">Already have an account? </p>
-        <Link href={"/login"}>
-          <Button variant="secondary">login</Button>
+        <Link href="/login" className="text-primary text-body-md font-semibold">
+          Log in
         </Link>
       </div>
     </div>
