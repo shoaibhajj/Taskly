@@ -18,7 +18,7 @@ const Button = ({ children, variant, className, ...props }: ButtonProps) => {
     <button
       className={cn(
         className,
-        "text-body-md leading-btn  rounded-btn shadow-btn font-semibold ",
+        "text-body-md leading-btn rounded-card shadow-btn font-semibold text-center ",
         variantClasses[variant ?? "primary"],
       )}
       {...props}

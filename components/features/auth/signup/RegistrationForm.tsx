@@ -3,15 +3,16 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import Success from "@/app/icons/success.svg";
 import Check from "@/app/icons/check.svg";
-import X from "@/app/icons/x.svg";
 import { signUpSchema, passwordSchema, SignUpFormData } from "@/schemas/signup";
 import Link from "next/link";
 import { api } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { ENDPOINTS } from "@/constants/endpoints";
+import { SignUpResponse } from "@/types/auth";
 
 const checkListRules = [
   { id: "length-failed", label: "At least 8 characters" },
@@ -19,13 +20,7 @@ const checkListRules = [
   { id: "special-failed", label: "One special character" },
 ];
 
-interface SignUpResponse {
-  code?: number;
-  error_code?: string;
-  msg?: string;
-  access_token: string;
-  refresh_token: string;
-}
+
 
 export default function RegistrationForm() {
   const router = useRouter();
@@ -41,7 +36,6 @@ export default function RegistrationForm() {
     formState: { errors, isSubmitting },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
-    mode: "onChange",
     defaultValues: {
       name: "",
       email: "",
@@ -51,7 +45,7 @@ export default function RegistrationForm() {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      const response = await api.post<SignUpResponse>("/auth/v1/signup", data);
+      const response = await api.post<SignUpResponse>(ENDPOINTS.SIGN_UP, data);
       if (response) {
         router.push("/login");
       }
@@ -172,27 +166,26 @@ export default function RegistrationForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-b-card px-btn-x py-btn-y mt-6 w-full"
+          className="rounded-b-card px-btn-x mt-6 w-full py-4"
         >
-          {isSubmitting ? "Submitting..." : "Sign Up"}
+          {isSubmitting ? "Submitting..." : "Create Account"}
         </Button>
       </form>
 
       <div className="hidden w-full flex-col p-4 md:flex">
         <ul className="space-y-2" aria-label="Password requirements">
           {checkListRules.map((rule) => {
-            let status: boolean | null = null;
+            let isPassed: boolean | null = null;
             if (passwordValue !== "") {
-              status = !zodErrors.includes(rule.id);
+              isPassed = !zodErrors.includes(rule.id);
             }
             return (
               <li key={rule.id} className="flex items-center space-x-2 text-sm">
-                {status === null && <Check className="h-4 w-4 text-gray-300" />}
-                {status === true && (
-                  <Success className="h-4 w-4 text-green-500" />
+                {isPassed === true ? (
+                  <Success className="text-success h-4 w-4" />
+                ) : (
+                  <Check className="text-slate-light h-4 w-4" />
                 )}
-                {status === false && <X className="h-4 w-4 text-red-500" />}
-
                 <span
                   className={`text-slate-mid font-medium transition-colors duration-200`}
                 >

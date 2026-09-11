@@ -1,3 +1,13 @@
+import { ENDPOINTS } from "@/constants/endpoints";
+import {
+  clearSession,
+  getAccessToken,
+  getCookie,
+  getRefreshToken,
+  storeSession,
+} from "@/lib/auth/session";
+import { redirect } from "next/navigation";
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://example.com";
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
@@ -13,6 +23,7 @@ export class ApiError extends Error {
 async function apiFetch<T>(
   endpoint: string,
   options: Omit<RequestInit, "body"> & { body?: unknown } = {},
+  isRetry = false,
 ): Promise<T> {
   const url = `${BASE_URL}${endpoint}`;
 
@@ -21,12 +32,12 @@ async function apiFetch<T>(
   headers.set("apikey", API_KEY!);
 
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token");
+    const token = getAccessToken();
     if (token) headers.set("Authorization", `Bearer ${token}`);
   } else {
     const { cookies } = await import("next/headers");
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const token = cookieStore.get("access_token")?.value;
     if (token) headers.set("Authorization", `Bearer ${token}`);
   }
 
@@ -40,6 +51,23 @@ async function apiFetch<T>(
     headers,
     body: body as BodyInit,
   });
+
+  if (response.status === 401 && !isRetry) {
+    const refreshed = await tryRefreshToken();
+
+    if (refreshed) {
+      return apiFetch<T>(endpoint, options, true);
+    }
+  } else {
+    clearSession();
+
+    if (typeof window !== "undefined") {
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+      window.location.href = "/login";
+    } else {
+      redirect("/login");
+    }
+  }
 
   const text = await response.text();
   const data = text ? JSON.parse(text) : {};
@@ -70,3 +98,33 @@ export const api = {
   delete: <T>(endpoint: string, options?: RequestInit) =>
     apiFetch<T>(endpoint, { ...options, method: "DELETE" }),
 };
+
+async function tryRefreshToken(): Promise<boolean> {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) return false;
+
+  try {
+    const url = `${BASE_URL}/auth/v1/token?grant_type=refresh_token`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: API_KEY!,
+      },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    });
+    if (!response.ok) return false;
+
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
+    const { access_token, refresh_token } = data;
+    if (!access_token || !refresh_token) return false;
+    const rememberMe = getCookie("remember_me") === "true";
+    storeSession({ access_token, refresh_token }, rememberMe);
+
+    return true;
+  } catch {
+    return false;
+  }
+}
