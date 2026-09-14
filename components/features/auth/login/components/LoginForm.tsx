@@ -5,23 +5,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { api } from "@/lib/api/client";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-
-import { ENDPOINTS } from "@/constants/endpoints";
-
-import { getAccessToken, storeSession } from "@/lib/auth/session";
 import { LogInFormData, logInSchema } from "../schemas/login";
-import { SignInResponse } from "../types";
+import { useLogin } from "../hooks/useLogin";
 
 export default function LoginForm() {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [checkedRememberMe, setCheckedRememberMe] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
+  const { login } = useLogin();
 
   const {
     register,
@@ -35,28 +28,6 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit = async (
-    data: LogInFormData,
-    e?: React.BaseSyntheticEvent,
-  ) => {
-    e?.preventDefault();
-    try {
-      const response = await api.post<SignInResponse>(ENDPOINTS.LOGIN, data);
-      const { access_token, refresh_token } = response;
-
-      storeSession({ access_token, refresh_token }, checkedRememberMe);
-      if (getAccessToken()) {
-        router.push("/projects");
-      }
-    } catch (error) {
-      console.log(error);
-
-      const err = error as { message: string; status: number };
-
-      if (err.status === 400) toast.error(`Invalid email or password.`);
-    }
-  };
-
   return (
     <div className="mx-auto mb-36.75 flex h-screen flex-col items-center bg-white md:w-xl">
       <div className="flex flex-col justify-end">
@@ -69,7 +40,7 @@ export default function LoginForm() {
         </p>
       </div>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((data) => login(data, checkedRememberMe))}
         className="flex w-85.5 flex-col gap-6 md:w-full"
       >
         <div>
@@ -96,9 +67,12 @@ export default function LoginForm() {
               >
                 Password
               </label>
-              <Button variant="secondary" className="text-label-sm">
+              <Link
+                href="/forgot-password"
+                className="text-primary text-label-sm font-semibold"
+              >
                 Forgot?
-              </Button>
+              </Link>
             </div>
             <Input
               id="password"

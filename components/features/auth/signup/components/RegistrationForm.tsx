@@ -12,11 +12,7 @@ import {
   SignUpFormData,
 } from "@/components/features/auth/signup/schemas/signup";
 import Link from "next/link";
-import { api } from "@/lib/api/client";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { ENDPOINTS } from "@/constants/endpoints";
-import { SignUpResponse } from "../types";
+import { useSignUp } from "../hooks/useSignUp";
 
 const checkListRules = [
   { id: "length-failed", label: "At least 8 characters" },
@@ -25,12 +21,11 @@ const checkListRules = [
 ];
 
 export default function RegistrationForm() {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
-
+  const {signUp}=useSignUp()
   const {
     register,
     control,
@@ -45,24 +40,6 @@ export default function RegistrationForm() {
     },
   });
 
-  const onSubmit = async (data: SignUpFormData) => {
-    const { email, password, name, jobTitle } = data;
-    try {
-      const response = await api.post<SignUpResponse>(ENDPOINTS.SIGN_UP, {
-        email,
-        password,
-        data: {
-          name,
-          job_title: jobTitle || undefined,
-        },
-      });
-      if (response) {
-        router.push("/login");
-      }
-    } catch (error) {
-      toast.error(`${error}`);
-    }
-  };
 
   const passwordValue = useWatch({
     control,
@@ -89,7 +66,7 @@ export default function RegistrationForm() {
         Join the editorial approach to task management.
       </p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6">
+      <form onSubmit={handleSubmit(signUp)} className="flex flex-col gap-y-6">
         <div>
           <label
             htmlFor="name"
