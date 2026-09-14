@@ -1,14 +1,16 @@
-import LoginForm from "@/components/features/auth/login/components/LoginForm";
 import Header from "@/components/shared/Header";
-import React from "react";
+import React, { ReactNode } from "react";
 
-const LogIn = () => {
+type Props = {
+  children: ReactNode;
+};
+
+const Layout = ({ children }: Props) => {
   return (
     <div className="bg-background container mb-36.75 h-screen w-full px-6">
       <Header />
-      <LoginForm />
+      {children}
     </div>
   );
 };
-
-export default LogIn;
+export default Layout;

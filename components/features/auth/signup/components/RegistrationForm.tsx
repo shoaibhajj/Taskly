@@ -13,6 +13,7 @@ import {
 } from "@/components/features/auth/signup/schemas/signup";
 import Link from "next/link";
 import { useSignUp } from "../hooks/useSignUp";
+import { FormField } from "@/components/ui/FromField";
 
 const checkListRules = [
   { id: "length-failed", label: "At least 8 characters" },
@@ -25,7 +26,7 @@ export default function RegistrationForm() {
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
-  const {signUp}=useSignUp()
+  const { signUp } = useSignUp();
   const {
     register,
     control,
@@ -39,7 +40,6 @@ export default function RegistrationForm() {
       password: "",
     },
   });
-
 
   const passwordValue = useWatch({
     control,
@@ -85,71 +85,49 @@ export default function RegistrationForm() {
             3-50 characters, letters only.
           </p>
         </div>
-        <div>
-          <label
-            htmlFor="email"
-            className="text-label-sm text-slate-mid leading-label-sm inline-block text-center font-bold uppercase"
-          >
-            Email
-          </label>
-          <Input
-            id="email"
-            type="email"
-            {...register("email")}
-            error={errors.email}
-            placeholder="yourname@company.com"
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="jobTitle"
-            className="text-label-sm text-slate-mid leading-label-sm inline-block text-center font-bold uppercase"
-          >
-            job Title (optional)
-          </label>
-          <Input
-            id="jobTitle"
-            type="text"
-            {...register("jobTitle")}
-            error={errors.jobTitle}
-            placeholder="e.g. Project Manager"
-          />
-        </div>
+        <FormField<SignUpFormData>
+          id="email"
+          type="email"
+          register={register}
+          errors={errors}
+          label="Email"
+          name="email"
+          placeholder="curator@workspace.com"
+        />
+
+        <FormField<SignUpFormData>
+          id="jobTitle"
+          type="jobTitle"
+          register={register}
+          errors={errors}
+          label="job Title (optional)"
+          name="jobTitle"
+          placeholder="e.g. Project Manager"
+        />
         <div className="gap-4 md:flex">
-          <div>
-            <label
-              htmlFor="password"
-              className="text-label-sm text-slate-mid leading-label-sm inline-block text-center font-bold uppercase"
-            >
-              Password
-            </label>
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              {...register("password")}
-              error={errors.password}
-              placeholder="Password"
-              showPassword={showPassword}
-              togglePasswordVisibility={togglePasswordVisibility}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="confirmPassword"
-              className="text-label-sm text-slate-mid leading-label-sm inline-block text-center font-bold uppercase"
-            >
-              confirm Password
-            </label>
-            <Input
-              id="confirmPassword"
-              type={showPassword ? "text" : "password"}
-              {...register("confirmPassword")}
-              placeholder="Repeat your password"
-              error={errors.confirmPassword}
-              showPassword={showPassword}
-              togglePasswordVisibility={togglePasswordVisibility}
-            />
-          </div>
+          <FormField<SignUpFormData>
+            id="password"
+            type={showPassword ? "text" : "password"}
+            register={register}
+            errors={errors}
+            label="job Title (optional)"
+            name="password"
+            placeholder="Password"
+            showPassword={showPassword}
+            togglePasswordVisibility={togglePasswordVisibility}
+          />
+
+          <FormField<SignUpFormData>
+            id="confirmPassword"
+            type={showPassword ? "text" : "password"}
+            register={register}
+            errors={errors}
+            label="job Title (optional)"
+            name="confirmPassword"
+            placeholder="Repeat your password"
+            showPassword={showPassword}
+            togglePasswordVisibility={togglePasswordVisibility}
+          />
         </div>
         <Button
           type="submit"

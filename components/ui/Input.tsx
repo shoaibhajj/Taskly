@@ -1,11 +1,12 @@
 import { cn } from "@/lib/utils/cn";
 import { ComponentPropsWithoutRef } from "react";
-import { FieldError } from "react-hook-form";
+import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import EyeOff from "@/app/icons/eyeOff.svg";
 import Eye from "@/app/icons/eye.svg";
 
 interface InputProps extends ComponentPropsWithoutRef<"input"> {
-  error: FieldError | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   togglePasswordVisibility?: () => void;
   showPassword?: boolean;
 }
@@ -59,7 +60,7 @@ const Input = ({
           role="alert"
           className="text-error text-label-sm sr-only mt-1"
         >
-          {error?.message}
+          {typeof error?.message === "string" ? error.message : undefined}
         </p>
       )}
     </div>

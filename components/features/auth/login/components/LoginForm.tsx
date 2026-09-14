@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { LogInFormData, logInSchema } from "../schemas/login";
 import { useLogin } from "../hooks/useLogin";
+import { FormField } from "@/components/ui/FromField";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,47 +44,35 @@ export default function LoginForm() {
         onSubmit={handleSubmit((data) => login(data, checkedRememberMe))}
         className="flex w-85.5 flex-col gap-6 md:w-full"
       >
-        <div>
-          <label
-            htmlFor="email"
-            className="text-label-sm text-slate-mid leading-label-sm inline-block text-center font-bold uppercase"
-          >
-            Email
-          </label>
-          <Input
-            id="email"
-            type="email"
-            {...register("email")}
-            error={errors.email}
-            placeholder="curator@workspace.com"
-          />
-        </div>
+        <FormField<LogInFormData>
+          id="email"
+          type="email"
+          register={register}
+          errors={errors}
+          label="Email"
+          name="email"
+          placeholder="curator@workspace.com"
+        />
+
         <div className="gap-4 md:flex">
-          <div className="w-full">
-            <div className="flex justify-between">
-              <label
-                htmlFor="password"
-                className="text-label-sm text-slate-mid leading-label-sm inline-block text-center font-bold uppercase"
-              >
-                Password
-              </label>
-              <Link
-                href="/forgot-password"
-                className="text-primary text-label-sm font-semibold"
-              >
-                Forgot?
-              </Link>
-            </div>
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              {...register("password")}
-              error={errors.password}
-              placeholder="••••••••"
-              showPassword={showPassword}
-              togglePasswordVisibility={togglePasswordVisibility}
-            />
-          </div>
+          <FormField<LogInFormData>
+            id="password"
+            type={showPassword ? "text" : "password"}
+            register={register}
+            errors={errors}
+            label="Password"
+            name="password"
+            placeholder="••••••••"
+            showPassword={showPassword}
+            togglePasswordVisibility={togglePasswordVisibility}
+          >
+            <Link
+              href="/forgot-password"
+              className="text-primary text-label-sm font-semibold"
+            >
+              Forgot?
+            </Link>
+          </FormField>
         </div>
 
         <div className="flex w-full flex-col justify-between">
