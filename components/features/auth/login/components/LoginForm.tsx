@@ -5,13 +5,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { api } from "@/utils/api";
+import { api } from "@/lib/api/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { LogInFormData, logInSchema } from "@/schemas/login";
+
 import { ENDPOINTS } from "@/constants/endpoints";
-import { SignInResponse } from "@/types/auth";
+
 import { getAccessToken, storeSession } from "@/lib/auth/session";
+import { LogInFormData, logInSchema } from "../schemas/login";
+import { SignInResponse } from "../types";
 
 export default function LoginForm() {
   const router = useRouter();

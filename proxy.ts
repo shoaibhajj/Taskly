@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-const protectedRoutes = ["/projects"];
+const protectedRoutes = ["/","/projects"];
 export function proxy(request: NextRequest) {
   const session = request.cookies.get("access_token")?.value;
   const { pathname } = request.nextUrl;

@@ -6,13 +6,17 @@ import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import Success from "@/app/icons/success.svg";
 import Check from "@/app/icons/check.svg";
-import { signUpSchema, passwordSchema, SignUpFormData } from "@/schemas/signup";
+import {
+  signUpSchema,
+  passwordSchema,
+  SignUpFormData,
+} from "@/components/features/auth/signup/schemas/signup";
 import Link from "next/link";
-import { api } from "@/utils/api";
+import { api } from "@/lib/api/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ENDPOINTS } from "@/constants/endpoints";
-import { SignUpResponse } from "@/types/auth";
+import { SignUpResponse } from "../types";
 
 const checkListRules = [
   { id: "length-failed", label: "At least 8 characters" },
@@ -42,8 +46,16 @@ export default function RegistrationForm() {
   });
 
   const onSubmit = async (data: SignUpFormData) => {
+    const { email, password, name, jobTitle } = data;
     try {
-      const response = await api.post<SignUpResponse>(ENDPOINTS.SIGN_UP, data);
+      const response = await api.post<SignUpResponse>(ENDPOINTS.SIGN_UP, {
+        email,
+        password,
+        data: {
+          name,
+          job_title: jobTitle || undefined,
+        },
+      });
       if (response) {
         router.push("/login");
       }

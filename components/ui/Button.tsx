@@ -1,4 +1,4 @@
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { ComponentPropsWithRef, ReactNode } from "react";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";

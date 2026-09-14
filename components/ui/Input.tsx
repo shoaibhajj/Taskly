@@ -1,4 +1,4 @@
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { ComponentPropsWithoutRef } from "react";
 import { FieldError } from "react-hook-form";
 import EyeOff from "@/app/icons/eyeOff.svg";
