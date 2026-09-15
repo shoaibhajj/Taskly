@@ -49,10 +49,10 @@ export function getAccessToken(): string | null {
   const access_token = getCookie("access_token");
   return access_token;
 }
-export function getRefreshToken(): string | null {
-  const refresh_token = getCookie("refresh_token");
-  return refresh_token;
-}
+  export function getRefreshToken(): string | null {
+    const refresh_token = getCookie("refresh_token");
+    return refresh_token;
+  }
 
 export function clearSession(): void {
   deleteCookie("access_token");

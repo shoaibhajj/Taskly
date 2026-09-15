@@ -1,10 +1,19 @@
-import { api } from "@/lib/api/client";
+import { ApiError } from "@/lib/api/client";
 import { LogInFormData } from "../schemas/login";
 import { SignInResponse } from "../types";
-import { ENDPOINTS } from "@/constants/endpoints";
 
 export async function loginUser(
   credentials: LogInFormData,
-): Promise<SignInResponse> {
-  return api.post<SignInResponse>(ENDPOINTS.LOGIN, credentials);
+  remember_me: boolean,
+): Promise<Partial<SignInResponse>> {
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...credentials, remember_me }),
+  });
+  if (!res.ok) {
+    throw new ApiError("Something went wrong. Please try again.", res.status);
+  }
+  const data = (await res.json()) as SignInResponse;
+  return data;
 }

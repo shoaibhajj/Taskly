@@ -7,7 +7,7 @@ import {
 } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://example.com";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 export class ApiError extends Error {
@@ -29,16 +29,15 @@ async function apiFetch<T>(
   const headers = new Headers(options.headers);
   headers.set("Content-Type", "application/json");
   headers.set("apikey", API_KEY!);
-
-  if (typeof window !== "undefined") {
-    const token = getAccessToken();
-    if (token) headers.set("Authorization", `Bearer ${token}`);
-  } else {
-    const { cookies } = await import("next/headers");
-    const cookieStore = await cookies();
-    const token = cookieStore.get("access_token")?.value;
-    if (token) headers.set("Authorization", `Bearer ${token}`);
-  }
+if (typeof window !== "undefined") {
+  const token = getAccessToken(); 
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+} else {
+  const { cookies } = await import("next/headers");
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+}
 
   let body = options.body;
   if (body && typeof body === "object" && !(body instanceof FormData)) {
@@ -99,7 +98,10 @@ export const api = {
 };
 
 async function tryRefreshToken(): Promise<boolean> {
-  const refreshToken = getRefreshToken();
+  const { cookies } = await import("next/headers");
+  const cookieStore = await cookies();
+  const refreshToken = cookieStore.get("refresh_token")?.value;
+  const remember_me = cookieStore.get("remember_me")?.value;
   if (!refreshToken) return false;
 
   try {
@@ -117,10 +119,37 @@ async function tryRefreshToken(): Promise<boolean> {
 
     const text = await response.text();
     const data = text ? JSON.parse(text) : {};
-    const { access_token, refresh_token } = data;
+    const { access_token, refresh_token, expires_at } = data;
+
+    const date = new Date();
+    date.setTime(
+      date.getTime() + (remember_me === "true" ? 30 : 1) * 24 * 60 * 60 * 1000,
+    );
+    const refreshExp = date;
+
     if (!access_token || !refresh_token) return false;
-    const rememberMe = getCookie("remember_me") === "true";
-    storeSession({ access_token, refresh_token }, rememberMe);
+    cookieStore.set("access_token", access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      expires: new Date(expires_at * 1000),
+    });
+
+    cookieStore.set("refresh_token", refresh_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      expires: refreshExp,
+    });
+    cookieStore.set("remember_me", String(remember_me), {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      expires: refreshExp,
+    });
 
     return true;
   } catch {

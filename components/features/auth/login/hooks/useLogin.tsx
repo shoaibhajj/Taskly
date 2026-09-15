@@ -2,20 +2,17 @@
 import { useRouter } from "next/navigation";
 import { loginUser } from "../services/login.service";
 import { LogInFormData } from "../schemas/login";
-import { getAccessToken, storeSession } from "@/lib/auth/session";
 import { toast } from "sonner";
 import { ApiError } from "@/lib/api/client";
 
 export function useLogin() {
   const router = useRouter();
 
-  const login = async (data: LogInFormData, checkedRememberMe: boolean) => {
+  const login = async (data: LogInFormData, remember_me: boolean) => {
     try {
-      const { access_token, refresh_token } = await loginUser(data);
+      const response = await loginUser(data, remember_me);
 
-      storeSession({ access_token, refresh_token }, checkedRememberMe);
-
-      if (getAccessToken()) {
+      if (response.user) {
         router.push("/projects");
       }
     } catch (error) {
