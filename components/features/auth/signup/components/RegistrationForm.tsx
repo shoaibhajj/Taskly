@@ -96,12 +96,12 @@ export default function RegistrationForm() {
         />
 
         <FormField<SignUpFormData>
-          id="jobTitle"
-          type="jobTitle"
+          id="job_title"
+          type="name"
           register={register}
           errors={errors}
           label="job Title (optional)"
-          name="jobTitle"
+          name="job_title"
           placeholder="e.g. Project Manager"
         />
         <div className="gap-4 md:flex">
@@ -110,7 +110,7 @@ export default function RegistrationForm() {
             type={showPassword ? "text" : "password"}
             register={register}
             errors={errors}
-            label="job Title (optional)"
+            label="Password"
             name="password"
             placeholder="Password"
             showPassword={showPassword}
@@ -122,7 +122,7 @@ export default function RegistrationForm() {
             type={showPassword ? "text" : "password"}
             register={register}
             errors={errors}
-            label="job Title (optional)"
+            label="Confirm Password"
             name="confirmPassword"
             placeholder="Repeat your password"
             showPassword={showPassword}

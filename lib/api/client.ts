@@ -1,11 +1,6 @@
-import {
-  clearSession,
-  getAccessToken,
-  getCookie,
-  getRefreshToken,
-  storeSession,
-} from "@/lib/auth/session";
 import { redirect } from "next/navigation";
+import { deleteAuthCookies, setCookies } from "../auth/cookies";
+import { SUPABASE_ENDPOINTS } from "@/constants/endpoints";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
@@ -29,15 +24,11 @@ async function apiFetch<T>(
   const headers = new Headers(options.headers);
   headers.set("Content-Type", "application/json");
   headers.set("apikey", API_KEY!);
-if (typeof window !== "undefined") {
-  const token = getAccessToken(); 
-  if (token) headers.set("Authorization", `Bearer ${token}`);
-} else {
+
   const { cookies } = await import("next/headers");
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (token) headers.set("Authorization", `Bearer ${token}`);
-}
 
   let body = options.body;
   if (body && typeof body === "object" && !(body instanceof FormData)) {
@@ -56,14 +47,10 @@ if (typeof window !== "undefined") {
     if (refreshed) {
       return apiFetch<T>(endpoint, options, true);
     } else {
-      clearSession();
+      // clearSession();
+      await deleteAuthCookies();
 
-      if (typeof window !== "undefined") {
-        // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-        window.location.href = "/login";
-      } else {
-        redirect("/login");
-      }
+      redirect("/login");
     }
   }
 
@@ -105,7 +92,7 @@ async function tryRefreshToken(): Promise<boolean> {
   if (!refreshToken) return false;
 
   try {
-    const url = `${BASE_URL}/auth/v1/token?grant_type=refresh_token`;
+    const url = `${BASE_URL}${SUPABASE_ENDPOINTS.REFRESH_TOKEN}`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -128,28 +115,10 @@ async function tryRefreshToken(): Promise<boolean> {
     const refreshExp = date;
 
     if (!access_token || !refresh_token) return false;
-    cookieStore.set("access_token", access_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      expires: new Date(expires_at * 1000),
-    });
 
-    cookieStore.set("refresh_token", refresh_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      expires: refreshExp,
-    });
-    cookieStore.set("remember_me", String(remember_me), {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      expires: refreshExp,
-    });
+    await setCookies("access_token", access_token, new Date(expires_at * 1000));
+    await setCookies("refresh_token", refresh_token, refreshExp);
+    await setCookies("remember_me", String(remember_me), refreshExp);
 
     return true;
   } catch {

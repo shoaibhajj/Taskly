@@ -5,3 +5,8 @@ export interface SignUpResponse {
   access_token: string;
   refresh_token: string;
 }
+
+export interface SignUpApiResponse {
+  message: string;
+  status: number;
+}

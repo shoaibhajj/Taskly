@@ -1,4 +1,5 @@
-import { ENDPOINTS } from "@/constants/endpoints";
+import { SUPABASE_ENDPOINTS } from "@/constants/endpoints";
+import { deleteAuthCookies } from "@/lib/auth/cookies";
 import { NextResponse, NextRequest } from "next/server";
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
@@ -7,12 +8,12 @@ export async function POST(request: NextRequest) {
   const headers = new Headers();
   headers.set("Content-Type", "application/json");
   headers.set("apikey", API_KEY!);
-  const url = `${BASE_URL}${ENDPOINTS.LOGOUT}`;
+  const url = `${BASE_URL}${SUPABASE_ENDPOINTS.LOGOUT}`;
 
   const accessToken = request.cookies.get("access_token")?.value;
   if (!accessToken) {
     const response = NextResponse.json(null, { status: 204 });
-    deleteCookies(response);
+    await deleteAuthCookies();
     return response;
   }
   headers.set("Authorization", `Bearer ${accessToken}`);
@@ -29,11 +30,11 @@ const response = new NextResponse(null, { status: 204 });
         ? true
         : false;
     if (result.ok) {
-      deleteCookies(response);
+      await deleteAuthCookies();
 
       return response;
     } else if (session_not_found) {
-      deleteCookies(response);
+      await deleteAuthCookies();
       return response;
     } else {
       return NextResponse.json(
@@ -48,27 +49,3 @@ const response = new NextResponse(null, { status: 204 });
     );
   }
 }
-
-const deleteCookies = (response: NextResponse) => {
-  response.cookies.set("access_token", "", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-    path: "/",
-    expires: new Date(0),
-  });
-  response.cookies.set("refresh_token", "", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-    path: "/",
-    expires: new Date(0),
-  });
-  response.cookies.set("remember_me", "", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-    path: "/",
-    expires: new Date(0),
-  });
-};
