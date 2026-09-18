@@ -5,7 +5,7 @@ type Props = {
   children: ReactNode;
 };
 
-const Layout = ({ children }: Props) => {
+const AuthLayout = ({ children }: Props) => {
   return (
     <div className="bg-background container mb-36.75 h-screen w-full px-6">
       <Header />
@@ -13,4 +13,4 @@ const Layout = ({ children }: Props) => {
     </div>
   );
 };
-export default Layout;
+export default AuthLayout;

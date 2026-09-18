@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { User } from "../types/user.types";
 import { ApiError } from "@/lib/api/client";
 import getUserData from "../services/user.service";
-
+import { useRouter } from "next/navigation";
 export function useCurrentUser() {
+  const router = useRouter();
   const [user, setUser] = useState<User>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<ApiError>();
 
   useEffect(() => {
@@ -14,10 +15,17 @@ export function useCurrentUser() {
       try {
         setIsLoading(true);
         const res = await getUserData();
+        console.log(res);
+        
         setUser(res);
       } catch (error) {
         if (error instanceof ApiError) {
-          setError(error);
+          if (error.status === 401) {
+            setError(error);
+            router.push("/login");
+          } else {
+            setError(error);
+          }
         } else {
           setError(
             new ApiError("Something went wrong. Please try again.", 500),

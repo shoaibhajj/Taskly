@@ -10,4 +10,5 @@ export const LOCAL_ENDPOINTS = {
   LOGIN: "/api/auth/login",
   SIGNUP: "/api/auth/signup",
   LOGOUT: "/api/auth/logout",
+  GET_USER_DATA: "/api/auth/user",
 } as const;

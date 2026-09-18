@@ -4,7 +4,6 @@ import { NextResponse, NextRequest } from "next/server";
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 export async function POST(request: NextRequest) {
-  console.log(request.cookies.getAll());
   const headers = new Headers();
   headers.set("Content-Type", "application/json");
   headers.set("apikey", API_KEY!);
@@ -22,7 +21,7 @@ export async function POST(request: NextRequest) {
       method: "POST",
       headers,
     });
-    console.log(result);
+
 
 const response = new NextResponse(null, { status: 204 });
     const session_not_found =

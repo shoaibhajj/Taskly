@@ -50,7 +50,7 @@ async function apiFetch<T>(
       // clearSession();
       await deleteAuthCookies();
 
-      redirect("/login");
+      throw new ApiError("Unauthorized", response.status);
     }
   }
 
@@ -118,8 +118,9 @@ async function tryRefreshToken(): Promise<boolean> {
 
     await setCookies("access_token", access_token, new Date(expires_at * 1000));
     await setCookies("refresh_token", refresh_token, refreshExp);
-    await setCookies("remember_me", String(remember_me), refreshExp);
-
+    if (remember_me) {
+      await setCookies("remember_me", String(remember_me), refreshExp);
+    }
     return true;
   } catch {
     return false;
