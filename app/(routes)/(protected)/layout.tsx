@@ -1,4 +1,5 @@
 "use client";
+import BottomNavBar from "@/components/features/layout/components/BottomNavBar";
 import MobileNav from "@/components/features/layout/components/MobileNav";
 import Navbar from "@/components/features/layout/components/Navbar";
 import Sidebar from "@/components/features/layout/components/Sidebar";
@@ -12,6 +13,7 @@ function ProtectedLayout({ children }: { children: ReactNode }) {
         <Navbar />
       </div>
       <MobileNav />
+      <BottomNavBar/>
       {children}
     </div>
   );

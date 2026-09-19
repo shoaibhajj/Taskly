@@ -3,11 +3,12 @@ import Button from "@/components/ui/Button";
 import { useState } from "react";
 import Logo from "@/app/icons/Logo.svg";
 import StatisticsIcon from "@/app/icons/StatisticsIcon.svg";
-import ProjectsIcon from "@/app/icons/CollapseIcon.svg";
+
 import CollapseIcon from "@/app/icons/CollapseIcon.svg";
 import LogoutIcon from "@/app/icons/LogoutIcon.svg";
 import ProjectsIconActual from "@/app/icons/ProjectsIcon.svg";
 import { useLogout } from "../../auth/hooks/useLogout";
+import CurrentActiveProjectLinks from "./ActiveProjectDropdown";
 
 function Sidebar() {
   const { logout, isLoggingOut } = useLogout();
@@ -34,7 +35,6 @@ function Sidebar() {
       }`}
     >
       <div>
-        {/* Logo Section */}
         <div
           className={`flex items-center ${isCollapsed ? "justify-center" : ""}`}
         >
@@ -57,6 +57,8 @@ function Sidebar() {
             {!isCollapsed && <p className="font-medium">My Statistics</p>}
           </div>
         </div>
+        <hr className="text-slate-light" />
+        <CurrentActiveProjectLinks isCollapsed={isCollapsed} />
       </div>
 
       <div className="flex flex-col items-stretch justify-center gap-2">
