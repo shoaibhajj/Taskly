@@ -30,13 +30,13 @@ export default function ActiveProjectDropdown({
     <div
       onMouseEnter={() => isCollapsed && setIsHovered(true)}
       onMouseLeave={() => isCollapsed && setIsHovered(false)}
-      className={`w-full max-w-60 transition-all ${
-        isCollapsed ? "relative px-0" : "px-4"
-      }`}
+      className={`w-full md:max-w-60 transition-all ${
+        isCollapsed ? "relative px-0" : "px-2"
+      } `}
     >
       <button
         onClick={() => !isCollapsed && setIsOpen((prev) => !prev)}
-        className={`rounded-card bg-surface-low text-primary hover:bg-surface-highest flex w-full items-center py-3.5 transition-colors ${
+        className={`rounded-card bg-surface-highest text-primary hover:bg-surface-highest my-4 flex w-full items-center py-4 transition-colors ${
           isCollapsed ? "justify-center p-3" : "justify-between px-4"
         }`}
       >

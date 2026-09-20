@@ -15,7 +15,7 @@ const Item = ({ children, label }: { children: ReactNode; label: string }) => {
 
 function BottomNavBar() {
   return (
-    <div className="bg-surface-low fixed bottom-0 flex h-16 w-full items-center px-7 md:hidden">
+    <div className="bg-surface-low  bottom-0 fixed flex h-16 w-full items-center px-7 md:hidden">
       <Item label="Projects">
         <Projects className="h-4.5 w-4.5" />
       </Item>
