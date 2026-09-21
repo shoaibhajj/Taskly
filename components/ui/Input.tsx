@@ -24,21 +24,27 @@ const Input = ({
   const errorId = `${id}-error`;
   return (
     <div className="relative mt-1 flex w-full items-center text-center">
-      <input
-        id={id}
-        className={cn(
-          hasError
-            ? "bg-danger placeholder-error text-error"
-            : "bg-surface-highest placeholder-surface-medium",
-          "mt-label-gap w-full rounded border-0 py-3.5 pr-10 pl-3 outline-0",
+      <div  className="flex flex-col w-full">
+        <input
+          id={id}
+          className={cn(
+            hasError
+              ? "bg-danger placeholder-error text-error"
+              : "bg-surface-highest placeholder-surface-medium",
+            "mt-label-gap w-full rounded border-0 py-3.5 pr-10 pl-3 outline-0",
+          )}
+          {...props}
+          type={type ?? "text"}
+          placeholder={placeholder}
+          aria-invalid={hasError}
+          aria-describedby={hasError ? errorId : undefined}
+        />
+        {error && (
+          <p className=" text-error text-start">
+            {typeof error?.message === "string" ? error.message : undefined}
+          </p>
         )}
-        {...props}
-        type={type ?? "text"}
-        placeholder={error ? `${error.message}` : placeholder}
-        aria-invalid={hasError}
-        aria-describedby={hasError ? errorId : undefined}
-      />
-
+      </div>
       {togglePasswordVisibility && (
         <button
           type="button"

@@ -4,6 +4,7 @@ export const SUPABASE_ENDPOINTS = {
   LOGOUT: "/auth/v1/logout",
   REFRESH_TOKEN: "/auth/v1/token?grant_type=refresh_token",
   GET_USER_DATA: "/auth/v1/user",
+  ADD_PROJECT: "/rest/v1/projects",
 } as const;
 
 export const LOCAL_ENDPOINTS = {
@@ -11,4 +12,5 @@ export const LOCAL_ENDPOINTS = {
   SIGNUP: "/api/auth/signup",
   LOGOUT: "/api/auth/logout",
   GET_USER_DATA: "/api/auth/user",
+  ADD_PROJECT: "/api/projects/add",
 } as const;

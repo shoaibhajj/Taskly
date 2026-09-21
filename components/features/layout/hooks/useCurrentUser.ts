@@ -15,7 +15,7 @@ export function useCurrentUser() {
       try {
         setIsLoading(true);
         const res = await getUserData();
-        console.log(res);
+        
         
         setUser(res);
       } catch (error) {
