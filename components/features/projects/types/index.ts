@@ -1,4 +1,4 @@
-export interface createProjectResponse {
+export interface ProjectResponse {
   name: string;
   description: string;
 }

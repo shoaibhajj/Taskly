@@ -8,19 +8,29 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import SuccessIcon from "@/app/icons/SuccessIcon.svg";
 import TipIcon from "@/app/icons/TipIcon.svg";
+import { ApiError } from "@/lib/api/client";
 
 interface Props extends Partial<ProjectFormData> {
   headerText: string;
-  headerBody: string;
+  error: ApiError | undefined;
+  addProject?: (data: ProjectFormData) => Promise<void>;
+  editProject?: (data: ProjectFormData, id: string) => Promise<void>;
+  id?: string;
+  isSubmittingLabel:string,
+  isNotSubmittingLabel:string,
+
 }
 export default function ProjectForm({
   name,
   description,
-  headerBody,
   headerText,
+  addProject,
+  editProject,
+  id,
+  error,
+  isSubmittingLabel ,
+  isNotSubmittingLabel
 }: Props) {
-  const { addProject, error, isLoading } = useAddProject();
-
   const {
     register,
     handleSubmit,
@@ -33,9 +43,17 @@ export default function ProjectForm({
     },
   });
 
+  const handleAddEditSubmit = (data: ProjectFormData) => {
+    if (editProject && id) {
+      editProject(data, id);
+    } else if (addProject) {
+      addProject(data);
+    }
+  };
+
   return (
     <form
-      onSubmit={handleSubmit((data) => addProject(data))}
+      onSubmit={handleSubmit((data) => handleAddEditSubmit(data))}
       className="h[511px] mx-auto flex w-full flex-col gap-8 p-8 md:max-w-2xl"
     >
       <div className="flex items-center gap-1">
@@ -46,7 +64,9 @@ export default function ProjectForm({
           <h2 className="text-slate-dark text-2xl leading-8 font-semibold">
             {headerText}
           </h2>
-          <p className="text-slate-mid text-body-md">{headerBody}</p>
+          <p className="text-slate-mid text-body-md">
+            Define the scope and foundational details of your project.
+          </p>
         </div>
       </div>
       <FormField<ProjectFormData>
@@ -67,7 +87,7 @@ export default function ProjectForm({
         name="description"
         placeholder="Provide a high-level overview of the project's architectural objectives and key milestones..."
         rows={5}
-        className="min-h-30 w-full resize-y rounded-md  p-3 bg-surface-highest  " 
+        className="bg-surface-highest min-h-30 w-full resize-y rounded-md p-3"
       />
 
       <div className="flex items-center justify-between">
@@ -84,7 +104,8 @@ export default function ProjectForm({
           aria-busy={isSubmitting}
           className="px-btn-x w-fit py-4"
         >
-          {isSubmitting ? "Creating..." : "Create Project"}
+          {isSubmitting ? isSubmittingLabel : isNotSubmittingLabel}
+
         </Button>
       </div>
 

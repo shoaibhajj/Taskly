@@ -1,18 +1,19 @@
 import { LOCAL_ENDPOINTS } from "@/constants/endpoints";
-import { ProjectFormData } from "../schemas/project";
-import { ProjectResponse } from "../types";
-import { ApiError } from "@/lib/api/client";
 
-export async function addProjectService({
-  name,
-  description,
-}: ProjectFormData): Promise<ProjectResponse> {
-  const res = await fetch(LOCAL_ENDPOINTS.ADD_PROJECT, {
-    method: "POST",
+import { ApiError } from "@/lib/api/client";
+import { ProjectResponse } from "../types";
+
+interface Props {
+  id: string;
+}
+
+export async function getProjectService({ id }: Props): Promise<ProjectResponse> {
+  const url = `${LOCAL_ENDPOINTS.GET_PROJECT}?id=${id}`;
+  const res = await fetch(url, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, description }),
   });
   if (!res.ok) {
     throw new ApiError("Something went wrong. Please try again.", res.status);

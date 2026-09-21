@@ -2,34 +2,34 @@
 import { toast } from "sonner";
 import { ProjectFormData } from "../schemas/project";
 import { ApiError } from "@/lib/api/client";
-import { addProjectService } from "../services/add.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { editProjectService } from "../services/edit.service";
 
-export function useAddProject() {
-  // const [project, setProject] = useState<createProjectResponse>();
+export function useEditProject() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ApiError>();
   const router = useRouter();
-  const addProject = async (data: ProjectFormData) => {
+  const editProject = async (data: ProjectFormData, id: string) => {
     try {
       setIsLoading(true);
 
-      await addProjectService(data);
+      await editProjectService({ ...data, id });
 
-      toast.success("Project created successfully");
+      toast.success("Project updated successfully");
 
       router.push("/projects");
     } catch (error) {
       if (error instanceof ApiError) {
         setError(error);
+        toast.error(`Failed to update project: ${error.message}`);
       } else {
         setError(new ApiError("Something went wrong. Please try again.", 500));
+        toast.error(`Failed to update project: ${error}`);
       }
-      toast.error("Failed To Add New Project, Try Again Later ");
     } finally {
       setIsLoading(false);
     }
   };
-  return { addProject, isLoading, error };
+  return { editProject, isLoading, error };
 }

@@ -1,24 +1,24 @@
 import { LOCAL_ENDPOINTS } from "@/constants/endpoints";
 import { ProjectFormData } from "../schemas/project";
-import { ProjectResponse } from "../types";
 import { ApiError } from "@/lib/api/client";
 
-export async function addProjectService({
+interface Props extends ProjectFormData {
+  id: string;
+}
+
+export async function editProjectService({
   name,
   description,
-}: ProjectFormData): Promise<ProjectResponse> {
-  const res = await fetch(LOCAL_ENDPOINTS.ADD_PROJECT, {
-    method: "POST",
+  id,
+}: Props): Promise<void> {
+  const res = await fetch(LOCAL_ENDPOINTS.EDIT_PROJECT , {
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, description }),
+    body: JSON.stringify({ name, description,id}),
   });
   if (!res.ok) {
     throw new ApiError("Something went wrong. Please try again.", res.status);
   }
-
-  const data = (await res.json()) as ProjectResponse;
-
-  return data;
 }

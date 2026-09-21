@@ -79,6 +79,11 @@ export const api = {
     body?: unknown,
     options?: Omit<RequestInit, "body">,
   ) => apiFetch<T>(endpoint, { ...options, method: "PUT", body }),
+  patch: <T>(
+    endpoint: string,
+    body?: unknown,
+    options?: Omit<RequestInit, "body">,
+  ) => apiFetch<T>(endpoint, { ...options, method: "PATCH", body }),
 
   delete: <T>(endpoint: string, options?: RequestInit) =>
     apiFetch<T>(endpoint, { ...options, method: "DELETE" }),
