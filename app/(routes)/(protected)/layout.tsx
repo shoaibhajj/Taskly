@@ -23,7 +23,7 @@ function ProtectedLayout({ children }: { children: ReactNode }) {
         {children}
       </div>
 
-      <BottomNavBar />
+       <BottomNavBar />
     </div>
   );
 }
