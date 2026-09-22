@@ -10,7 +10,7 @@ function ProtectedLayout({ children }: { children: ReactNode }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
 
       <div className="flex flex-1 flex-col">
@@ -20,10 +20,10 @@ function ProtectedLayout({ children }: { children: ReactNode }) {
           setIsDrawerOpen={setIsDrawerOpen}
         />
         <MobileSidebarDrawer isDrawerOpen={isDrawerOpen} />
-        {children}
+        <div className="flex-1 overflow-y-auto">{children}</div>
       </div>
 
-       <BottomNavBar />
+      <BottomNavBar />
     </div>
   );
 }
