@@ -1,10 +1,8 @@
 "use client";
-import { toast } from "sonner";
 import { ProjectFormData } from "../schemas/project";
 import { ApiError } from "@/lib/api/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { editProjectService } from "../services/edit.service";
 import { getProjectService } from "../services/get.service";
 
 export function useGetProject(id: string) {
@@ -40,8 +38,7 @@ export function useGetProject(id: string) {
     };
 
     getProject(id);
-    
-  }, []);
+  }, [id, router]);
 
   return { project, isLoading, error };
 }

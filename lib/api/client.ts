@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+
 import { deleteAuthCookies, setCookies } from "../auth/cookies";
 import { SUPABASE_ENDPOINTS } from "@/constants/endpoints";
 

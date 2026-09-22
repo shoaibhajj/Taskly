@@ -12,5 +12,3 @@ export const generateNameAvatar = (name: string) => {
     return singleName.substring(0, 2).toUpperCase();
   }
 };
-
-

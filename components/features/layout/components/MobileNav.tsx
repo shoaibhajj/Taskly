@@ -14,7 +14,7 @@ interface Props {
 }
 
 function MobileNav({ isDrawerOpen, setIsDrawerOpen }: Props) {
-  const { error, isLoading, user } = useCurrentUser();
+  const {  user } = useCurrentUser();
 
   return (
     <div className="bg-background flex h-16 w-full items-center justify-between gap-3.75 border border-[#0000001A] px-6.25 md:hidden">

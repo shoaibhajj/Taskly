@@ -24,7 +24,7 @@ const Input = ({
   const errorId = `${id}-error`;
   return (
     <div className="relative mt-1 flex w-full items-center text-center">
-      <div  className="flex flex-col w-full">
+      <div className="flex w-full flex-col">
         <input
           id={id}
           className={cn(
@@ -40,7 +40,7 @@ const Input = ({
           aria-describedby={hasError ? errorId : undefined}
         />
         {error && (
-          <p className=" text-error text-start">
+          <p className="text-error text-start">
             {typeof error?.message === "string" ? error.message : undefined}
           </p>
         )}

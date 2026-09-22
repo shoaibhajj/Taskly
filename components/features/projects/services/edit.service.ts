@@ -11,12 +11,12 @@ export async function editProjectService({
   description,
   id,
 }: Props): Promise<void> {
-  const res = await fetch(LOCAL_ENDPOINTS.EDIT_PROJECT , {
+  const res = await fetch(LOCAL_ENDPOINTS.EDIT_PROJECT, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, description,id}),
+    body: JSON.stringify({ name, description, id }),
   });
   if (!res.ok) {
     throw new ApiError("Something went wrong. Please try again.", res.status);

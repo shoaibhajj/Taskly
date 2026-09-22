@@ -18,7 +18,7 @@ export function useEditProject() {
 
       toast.success("Project updated successfully");
 
-      router.push("/projects");
+      router.push("/project");
     } catch (error) {
       if (error instanceof ApiError) {
         setError(error);

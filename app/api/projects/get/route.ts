@@ -6,14 +6,14 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const id  = searchParams.get("id");
+    const id = searchParams.get("id");
 
-     if (!id) {
-       return NextResponse.json(
-         { error: "Missing 'id' parameter" },
-         { status: 400 },
-       );
-     }
+    if (!id) {
+      return NextResponse.json(
+        { error: "Missing 'id' parameter" },
+        { status: 400 },
+      );
+    }
     const url = SUPABASE_ENDPOINTS.GET_PROJECTS + `?id=eq.${id}`;
 
     const response = await api.get<ProjectFormData[]>(url);

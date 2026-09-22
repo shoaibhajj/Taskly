@@ -7,7 +7,7 @@ export interface SignInResponse {
   access_token: string;
   refresh_token: string;
   expires_at: number;
-  user:User
+  user: User;
 }
 
 export interface LoginApiResponse {

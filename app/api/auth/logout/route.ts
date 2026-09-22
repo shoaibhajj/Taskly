@@ -22,8 +22,7 @@ export async function POST(request: NextRequest) {
       headers,
     });
 
-
-const response = new NextResponse(null, { status: 204 });
+    const response = new NextResponse(null, { status: 204 });
     const session_not_found =
       result.headers.get("x-sb-error-code") === "session_not_found"
         ? true
@@ -41,6 +40,7 @@ const response = new NextResponse(null, { status: 204 });
         { status: result.status },
       );
     }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json(
       { error: "Logout failed, please try again." },

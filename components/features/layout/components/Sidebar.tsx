@@ -11,7 +11,7 @@ function Sidebar() {
 
   return (
     <div
-      className={`bg-surface-low hidden h-full flex-col justify-between p-6 transition-all duration-300 md:flex ${
+      className={`bg-surface-low hidden h-screen flex-col justify-between p-6 transition-all duration-300 md:flex ${
         isCollapsed ? "w-18" : "w-[256px]"
       }`}
     >
@@ -35,12 +35,14 @@ function Sidebar() {
           </Button>
         </div>
 
-        <div className={` ${isCollapsed ? "justify-center" : ""} hidden md:flex`}>
+        <div
+          className={` ${isCollapsed ? "justify-center" : ""} hidden md:flex`}
+        >
           <Button
             variant="ghost"
             onClick={logout}
             disabled={isLoggingOut}
-            className="text-error flex  gap-3"
+            className="text-error flex gap-3"
           >
             <LogoutIcon className="text-error h-5 w-5.25" />
             {!isCollapsed && (

@@ -15,8 +15,7 @@ export function useCurrentUser() {
       try {
         setIsLoading(true);
         const res = await getUserData();
-        
-        
+
         setUser(res);
       } catch (error) {
         if (error instanceof ApiError) {
@@ -37,6 +36,6 @@ export function useCurrentUser() {
     };
 
     getData();
-  }, []);
+  }, [router]);
   return { user, isLoading, error };
 }

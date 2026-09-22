@@ -19,7 +19,7 @@ export function useAddProject() {
 
       toast.success("Project created successfully");
 
-      router.push("/projects");
+      router.push("/project");
     } catch (error) {
       if (error instanceof ApiError) {
         setError(error);

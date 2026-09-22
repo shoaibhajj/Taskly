@@ -7,7 +7,7 @@ function Navbar() {
   const { error, isLoading, user } = useCurrentUser();
 
   return (
-    <div className="hidden bg-background md:flex h-16 w-full items-center justify-end gap-3.75 border-b border-[#0000001A] px-6.25">
+    <div className="bg-background hidden h-16 w-full items-center justify-end gap-3.75 border-b border-[#0000001A] px-6.25 md:flex">
       <div className="flex flex-col text-end">
         <p className="text-body-md leading-btn font-semibold capitalize">
           {isLoading ? "Loading..." : user?.name}
