@@ -16,9 +16,8 @@ interface Props extends Partial<ProjectFormData> {
   addProject?: (data: ProjectFormData) => Promise<void>;
   editProject?: (data: ProjectFormData, id: string) => Promise<void>;
   id?: string;
-  isSubmittingLabel:string,
-  isNotSubmittingLabel:string,
-
+  isSubmittingLabel: string;
+  isNotSubmittingLabel: string;
 }
 export default function ProjectForm({
   name,
@@ -28,8 +27,8 @@ export default function ProjectForm({
   editProject,
   id,
   error,
-  isSubmittingLabel ,
-  isNotSubmittingLabel
+  isSubmittingLabel,
+  isNotSubmittingLabel,
 }: Props) {
   const {
     register,
@@ -78,21 +77,26 @@ export default function ProjectForm({
         name="name"
         placeholder="Tasks Management project"
       />
-      <FormField<ProjectFormData>
-        id="description"
-        type="textarea"
-        register={register}
-        errors={errors}
-        label="DESCRIPTION"
-        name="description"
-        placeholder="Provide a high-level overview of the project's architectural objectives and key milestones..."
-        rows={5}
-        className="bg-surface-highest min-h-30 w-full resize-y rounded-md p-3"
-      />
-
+      <div className="relative flex w-full justify-between">
+        <FormField<ProjectFormData>
+          id="description"
+          type="textarea"
+          register={register}
+          errors={errors}
+          label="DESCRIPTION"
+          name="description"
+          placeholder="Provide a high-level overview of the project's architectural objectives and key milestones..."
+          rows={5}
+          className="bg-surface-highest min-h-30 w-full resize-y rounded-md p-3"
+        />
+        <p className="text-slate-mid absolute top-0 right-0">Optional</p>
+        <p className="text-slate-mid absolute top-38 right-0">
+          0 / 500 characters
+        </p>
+      </div>
       <div className="flex items-center justify-between">
         <Link
-          href="/projects"
+          href="/project"
           className="px-btn-x text-slate-mid text-body-md bg-white py-4 font-bold"
         >
           Back
@@ -105,7 +109,6 @@ export default function ProjectForm({
           className="px-btn-x w-fit py-4"
         >
           {isSubmitting ? isSubmittingLabel : isNotSubmittingLabel}
-
         </Button>
       </div>
 

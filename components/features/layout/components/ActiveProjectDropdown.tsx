@@ -7,21 +7,25 @@ import EpicsIcon from "@/app/icons/EpicsIcon.svg";
 import TasksIcon from "@/app/icons/TasksIcon.svg";
 import MembersIcon from "@/app/icons/MembersIcon.svg";
 import DetailsIcon from "@/app/icons/DetailsIcon.svg";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function ActiveProjectDropdown({
   isCollapsed,
+  projectId,
 }: {
   isCollapsed: boolean;
+  projectId: string;
 }) {
   const [isOpen, setIsOpen] = useState(true);
-  const [activeSubLink, setActiveSubLink] = useState("epics");
   const [isHovered, setIsHovered] = useState(false);
+  const pathname = usePathname();
 
   const subLinks = [
-    { id: "epics", label: "Epics", Icon: EpicsIcon },
-    { id: "tasks", label: "Tasks", Icon: TasksIcon },
-    { id: "members", label: "Members", Icon: MembersIcon },
-    { id: "details", label: "Details", Icon: DetailsIcon },
+    { id: "epics", label: "Epics", Icon: EpicsIcon, href: "epics" },
+    { id: "tasks", label: "Tasks", Icon: TasksIcon, href: "tasks" },
+    { id: "members", label: "Members", Icon: MembersIcon, href: "members" },
+    { id: "details", label: "Details", Icon: DetailsIcon, href: "edit" },
   ];
 
   const shouldShowSublinks = isCollapsed ? isHovered : isOpen;
@@ -30,7 +34,7 @@ export default function ActiveProjectDropdown({
     <div
       onMouseEnter={() => isCollapsed && setIsHovered(true)}
       onMouseLeave={() => isCollapsed && setIsHovered(false)}
-      className={`w-full md:max-w-60 transition-all ${
+      className={`w-full transition-all md:max-w-60 ${
         isCollapsed ? "relative px-0" : "px-2"
       } `}
     >
@@ -61,16 +65,8 @@ export default function ActiveProjectDropdown({
       <div
         className={`z-50 transition-all duration-300 ease-in-out ${
           isCollapsed
-            ? `${
-                shouldShowSublinks
-                  ? "pointer-events-auto opacity-100"
-                  : "pointer-events-none opacity-0"
-              } rounded-card border-slate-light/50 bg-surface-low invisible visible absolute top-0 left-full ml-2 w-52 border p-2 shadow-lg transition-opacity`
-            : `${
-                shouldShowSublinks
-                  ? "mt-1 grid-rows-[1fr]"
-                  : "grid-rows-[0fr] opacity-0"
-              } grid opacity-100`
+            ? `${ shouldShowSublinks ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0" } rounded-card border-slate-light/50 bg-surface-low invisible visible absolute top-0 left-full ml-2 w-52 border p-2 shadow-lg transition-opacity`
+            : `${ shouldShowSublinks ? "mt-1 grid-rows-[1fr]" : "grid-rows-[0fr] opacity-0" } grid opacity-100`
         }`}
       >
         <div className="overflow-hidden">
@@ -79,12 +75,13 @@ export default function ActiveProjectDropdown({
               isCollapsed ? "" : "bg-background p-2 shadow-sm"
             }`}
           >
-            {subLinks.map(({ id, label, Icon }) => {
-              const isActive = activeSubLink === id;
+            {subLinks.map(({ id, label, Icon,href }) => {
+              const isActive = pathname.endsWith(`/${href}`);
+
               return (
-                <button
+                <Link
                   key={id}
-                  onClick={() => setActiveSubLink(id)}
+                  href={`/project/${projectId}/${href}`}
                   className={`text-body-md flex w-full items-center gap-4 rounded-4xl px-4 py-3 text-left font-medium transition-all ${
                     isActive
                       ? "bg-surface-low text-primary font-semibold"
@@ -97,7 +94,7 @@ export default function ActiveProjectDropdown({
                     }`}
                   />
                   <span>{label}</span>
-                </button>
+                </Link>
               );
             })}
           </div>

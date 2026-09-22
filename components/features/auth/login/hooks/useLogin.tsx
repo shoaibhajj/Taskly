@@ -13,7 +13,7 @@ export function useLogin() {
       const response = await loginUser(data, remember_me);
 
       if (response.user) {
-        router.push("/projects");
+        router.push("/project");
       }
     } catch (error) {
       toast.error(

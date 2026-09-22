@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-const protectedRoutes = ["/projects"];
+const protectedRoutes = ["/project"];
 const publicOnlyRoutes = ["/login", "/sign-up"];
 
 function redirectTo(path: string, request: NextRequest) {
@@ -22,7 +22,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (isGuestOnlyRoute && session) return redirectTo("/projects", request);
+  if (isGuestOnlyRoute && session) return redirectTo("/project", request);
   if (pathname === "/" && !session) return redirectTo("/login", request);
 
   return NextResponse.next();

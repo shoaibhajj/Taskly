@@ -6,6 +6,7 @@ import StatisticsIcon from "@/app/icons/StatisticsIcon.svg";
 import ProjectsIconActual from "@/app/icons/ProjectsIcon.svg";
 import Button from "@/components/ui/Button";
 import LogoutIcon from "@/app/icons/LogoutIcon.svg";
+import { useCurrentProjectId } from "../hooks/useCurrentProjectId";
 function SidebarNavContent({
   isCollapsed,
   logout,
@@ -16,6 +17,8 @@ function SidebarNavContent({
   isLoggingOut: boolean;
 }) {
   const [activeLink, setActiveLink] = useState("projects");
+  const {id,isInsideProject}= useCurrentProjectId();
+
 
   const getLinkClass = (linkName: string) => {
     const isActive = activeLink === linkName;
@@ -32,7 +35,7 @@ function SidebarNavContent({
   return (
     <div>
       <div
-        className={`items-center ${isCollapsed ? "justify-center" : ""} hidden md:flex `}
+        className={`items-center ${isCollapsed ? "justify-center" : ""} hidden md:flex`}
       >
         <Logo className="h-7 w-50.75" />
       </div>
@@ -54,7 +57,9 @@ function SidebarNavContent({
         </div>
       </div>
       <hr className="text-slate-light" />
-      <CurrentActiveProjectLinks isCollapsed={isCollapsed} />
+      {isInsideProject && (
+        <CurrentActiveProjectLinks isCollapsed={isCollapsed} projectId={id}/>
+      )}
 
       <div
         className={` ${isCollapsed ? "justify-center" : ""} fixed bottom-3 px-3 py-2.5 md:hidden`}
