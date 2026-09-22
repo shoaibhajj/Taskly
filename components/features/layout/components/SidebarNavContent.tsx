@@ -17,8 +17,7 @@ function SidebarNavContent({
   isLoggingOut: boolean;
 }) {
   const [activeLink, setActiveLink] = useState("projects");
-  const {id,isInsideProject}= useCurrentProjectId();
-
+  const { id, isInsideProject } = useCurrentProjectId();
 
   const getLinkClass = (linkName: string) => {
     const isActive = activeLink === linkName;
@@ -58,7 +57,7 @@ function SidebarNavContent({
       </div>
       <hr className="text-slate-light" />
       {isInsideProject && (
-        <CurrentActiveProjectLinks isCollapsed={isCollapsed} projectId={id}/>
+        <CurrentActiveProjectLinks isCollapsed={isCollapsed} projectId={id} />
       )}
 
       <div

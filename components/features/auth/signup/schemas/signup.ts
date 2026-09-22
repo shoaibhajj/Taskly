@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const passwordSchema = z
-  .string({message : "Password is required"})
+  .string({ message: "Password is required" })
   .min(8, { message: "length-failed" })
   .max(64, { message: "Password cannot exceed 64 characters" })
   .refine((val) => !/\s/.test(val), {
@@ -29,11 +29,9 @@ export const signUpSchema = z
     email: z.string().email({ message: "Please enter a valid email address" }),
     password: passwordSchema,
     job_title: z.string().optional(),
-    confirmPassword: z
-      .string()
-      .min(1, {
-        message: "confirm Password must be at least 1 characters long",
-      }),
+    confirmPassword: z.string().min(1, {
+      message: "confirm Password must be at least 1 characters long",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",

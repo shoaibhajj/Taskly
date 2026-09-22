@@ -6,9 +6,7 @@ function redirectTo(path: string, request: NextRequest) {
   return NextResponse.redirect(new URL(path, request.nextUrl.origin));
 }
 
-
 export function proxy(request: NextRequest) {
-
   const session = request.cookies.get("access_token")?.value;
   const { pathname } = request.nextUrl;
 

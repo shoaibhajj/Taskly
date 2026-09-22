@@ -7,7 +7,9 @@ interface Props {
   id: string;
 }
 
-export async function getProjectService({ id }: Props): Promise<ProjectResponse> {
+export async function getProjectService({
+  id,
+}: Props): Promise<ProjectResponse> {
   const url = `${LOCAL_ENDPOINTS.GET_PROJECT}?id=${id}`;
   const res = await fetch(url, {
     method: "GET",

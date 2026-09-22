@@ -1,10 +1,9 @@
-"use client"
+"use client";
 import ProjectForm from "@/components/features/projects/components/ProjectForm";
 import { useAddProject } from "@/components/features/projects/hooks/useAddProject";
 import React from "react";
 
 function AddProject() {
-
   const { addProject, error } = useAddProject();
   return (
     <div className="flex w-full flex-col px-8 py-6">
