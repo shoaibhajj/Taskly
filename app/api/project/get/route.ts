@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
         { status: 400 },
       );
     }
-    const url = SUPABASE_ENDPOINTS.GET_PROJECTS + `?id=eq.${id}`;
+    const url = SUPABASE_ENDPOINTS.GET_PROJECT + `?id=eq.${id}`;
 
     const response = await api.get<ProjectFormData[]>(url);
 

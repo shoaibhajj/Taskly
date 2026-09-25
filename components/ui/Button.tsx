@@ -24,7 +24,7 @@ const Button = ({
     <button
       className={cn(
         className,
-        "text-body-md leading-btn rounded-card shadow-btn focus-visible:outline-primary text-center font-semibold focus-visible:outline-offset-2 disabled:opacity-50",
+        "text-body-md leading-btn rounded-card shadow-btn focus-visible:outline-primary text-center font-semibold focus-visible:outline-offset-2 disabled:opacity-50 py-3 px-6",
         variantClasses[variant ?? "primary"],
       )}
       type={type}
