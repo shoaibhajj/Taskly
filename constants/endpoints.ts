@@ -6,7 +6,8 @@ export const SUPABASE_ENDPOINTS = {
   GET_USER_DATA: "/auth/v1/user",
   ADD_PROJECT: "/rest/v1/projects",
   EDIT_PROJECT: "/rest/v1/projects",
-  GET_PROJECTS: "/rest/v1/rpc/get_projects",
+  GET_PROJECT: "/rest/v1/rpc/get_projects",
+  LIST_PROJECTS: "/rest/v1/rpc/get_projects",
 } as const;
 
 export const LOCAL_ENDPOINTS = {
@@ -14,7 +15,8 @@ export const LOCAL_ENDPOINTS = {
   SIGNUP: "/api/auth/signup",
   LOGOUT: "/api/auth/logout",
   GET_USER_DATA: "/api/auth/user",
-  ADD_PROJECT: "/api/projects/add",
-  EDIT_PROJECT: "/api/projects/edit",
-  GET_PROJECT: "/api/projects/get",
+  ADD_PROJECT: "/api/project/add",
+  EDIT_PROJECT: "/api/project/edit",
+  GET_PROJECT: "/api/project/get",
+  LIST_PROJECTS: "/api/project/list",
 } as const;
