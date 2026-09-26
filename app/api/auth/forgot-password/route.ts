@@ -3,10 +3,19 @@ import { api, ApiError } from "@/lib/api/client";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
+const redirectTo = new URL(
+  "/reset-password",
+  request.nextUrl.origin,
+).toString();
+
+const recoverUrl =
+  `${SUPABASE_ENDPOINTS.FORGOT_PASSWORD}` +
+  `?redirect_to=${encodeURIComponent(redirectTo)}`;
+
   try {
     const { email } = await request.json();
 
-    await api.post(SUPABASE_ENDPOINTS.FORGOT_PASSWORD, {
+    await api.post(recoverUrl, {
       email,
     });
 
